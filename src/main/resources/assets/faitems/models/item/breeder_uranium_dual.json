@@ -1,0 +1,6 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "faitems:items/breeder_uranium_dual"
+    }
+}
