@@ -36,20 +36,28 @@ repositories {
         name = 'CurseForge'
         url = 'http://minecraft.curseforge.com/api/maven/'
     }
+    maven { // Redstone Flux
+        name 'CoFH Maven'
+        url "http://maven.covers1624.net/"
+    }
 }
 
 minecraft {
-    version = "1.12.2-14.23.5.2796"
-    runDir = "run"
+    version = "1.12.2-14.23.5.2847"
     mappings = "stable_39"
-    useDepAts = true
+}
+
+sourceSets {
+    main {
+        output.resourcesDir = output.classesDir
+    }
 }
 
 dependencies {
-    deobfProvided "mezz.jei:jei_1.12.2:4.13.1.222:api"
-    deobfProvided "net.industrial-craft:industrialcraft-2:2.8.104-ex112"
-    runtime "mezz.jei:jei_1.12.2:4.13.1.222"
-    runtime "net.industrial-craft:industrialcraft-2:2.8.104-ex112"
+    deobfProvided "net.industrial-craft:industrialcraft:release:ex112"
+    //runtime "mezz.jei:jei_1.12.2:4.13.1.222"
+    compile "cofh:RedstoneFlux:1.12-2.+:deobf"
+    compile "cofh:CoFHCore:1.12.2-4.+:deobf"
     deobfCompile "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.13.508"
     deobfCompile "CraftTweaker2:CraftTweaker2-API:4.1.13.508"
     deobfCompile "CraftTweaker2:ZenScript:4.1.13.508"
@@ -59,8 +67,6 @@ dependencies {
 jar {
     manifest {
         attributes "Manifest-Version": "1.0"
-        attributes "FMLCorePlugin": "wormz.faitems.ASM.FATCore"
-        attributes "FMLCorePluginContainsFMLMod": "true"
     }
 }
     

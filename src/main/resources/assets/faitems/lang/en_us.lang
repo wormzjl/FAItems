@@ -1,8 +1,5 @@
-item.faitems:breeder_uranium.name=Breeder fuel (Uranium)
-item.faitems:breeder_uranium_dual.name=Dual Breeder fuel (Uranium)
-item.faitems:breeder_uranium_quad.name=Quad Breeder fuel (Uranium)
+item.faitems:cell_breeder.name=Breeder fuel (%s)
+item.faitems:cell_depleted.name=Spent fuel (%s)
+item.faitems:empty_cell.name=Empty cell
 
-item.faitems:breeder_uranium_depleted.name=Spent Breeder fuel (Uranium)
-item.faitems:breeder_uranium_dual_depleted.name=Spent Dual Breeder fuel (Uranium)
-item.faitems:breeder_uranium_quad_depleted.name=Spent Quad Breeder fuel (Uranium)
 

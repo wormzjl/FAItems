@@ -1,82 +1,65 @@
 package wormz.faitems.items;
 
 import ic2.api.reactor.IReactor;
-import ic2.api.reactor.IReactorComponent;
-import ic2.core.IC2Potion;
-import ic2.core.item.armor.ItemArmorHazmat;
+import nc.enumm.IFissionStats;
+import nc.enumm.IItemMeta;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import wormz.faitems.faitems;
 
-public class ItemCellDepleted extends Item implements IReactorComponent {
-    public final boolean rad;
+public class ItemCellDepleted<T extends Enum<T> & IStringSerializable & IItemMeta & IFissionStats> extends ItemCellBreeder {
 
-    public ItemCellDepleted(String name, boolean rad)
-    {
-        setRegistryName(faitems.MODID,name);
-        setTranslationKey(getRegistryName().toString());
-        this.rad = rad;
+    public ItemCellDepleted(Class<T> enumm, String name) {
+        super(enumm, name);
     }
 
+    @Override
+    public String getTranslationKey() {
+        return String.format("item.%s:cell_depleted.name", this.getRegistryName().getNamespace());
+    }
+
+    @Override
+    public boolean acceptUraniumPulse(ItemStack stack, IReactor reactor, ItemStack pulsingStack, int youX, int youY, int pulseX, int pulseY, boolean heatrun) {
+        return false;
+    }
+
+    @Override
+    public boolean canBePlacedIn(ItemStack stack, IReactor reactor) {
+        return false;
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
-    public void initModel()
-    {
-        ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+    public void initModel() {
+        int k = 0;
+        for (int i = 0; i < this.values.length; i++) {
+            ModelLoader.setCustomModelResourceLocation(this, k, new ModelResourceLocation("faitems:cell", "inventory"));
+            ModelLoader.setCustomModelResourceLocation(this, k + 1, new ModelResourceLocation("faitems:dual_cell", "inventory"));
+            ModelLoader.setCustomModelResourceLocation(this, k + 2, new ModelResourceLocation("faitems:quad_cell", "inventory"));
+            k += 3;
+        }
+        this.addPropertyOverride(new ResourceLocation("fuel_type"), (stack, worldIn, entityIn) -> 2);
     }
 
-    public void onUpdate(ItemStack stack, World world, Entity entity, int slotIndex, boolean isCurrentItem)
-    {
-        if (this.rad && (entity instanceof EntityLivingBase))
-        {
-            EntityLivingBase entityLiving = (EntityLivingBase)entity;
-            if (!ItemArmorHazmat.hasCompleteHazmat(entityLiving)) {
-                IC2Potion.radiation.applyTo(entityLiving, 200, 100);
+    @Override
+    public void getSubItems(CreativeTabs tab, NonNullList items) {
+        if (this.isInCreativeTab(tab)) {
+            int k = 0;
+            for (int i = 0; i < super.values.length; i++) {
+                ItemStack cell = new ItemStack(this, 1, k);
+                ItemStack dual_cell = new ItemStack(this, 1, k + 1);
+                ItemStack quad_cell = new ItemStack(this, 1, k + 2);
+                items.add(cell);
+                items.add(dual_cell);
+                items.add(quad_cell);
+                k += 3;
             }
         }
-    }
-
-    public boolean canBePlacedIn(ItemStack stack, IReactor reactor)
-    {
-        return false;
-    }
-
-    public void processChamber(ItemStack stack, IReactor reactor, int x, int y, boolean heatrun) {}
-
-    public boolean acceptUraniumPulse(ItemStack stack, IReactor reactor, ItemStack pulsingStack, int youX, int youY, int pulseX, int pulseY, boolean heatrun)
-    {
-        return false;
-    }
-
-    public boolean canStoreHeat(ItemStack stack, IReactor reactor, int x, int y)
-    {
-        return false;
-    }
-
-    public int getMaxHeat(ItemStack stack, IReactor reactor, int x, int y)
-    {
-        return 0;
-    }
-
-    public int getCurrentHeat(ItemStack stack, IReactor reactor, int x, int y)
-    {
-        return 0;
-    }
-
-    public int alterHeat(ItemStack stack, IReactor reactor, int x, int y, int heat)
-    {
-        return 0;
-    }
-
-    public float influenceExplosion(ItemStack stack, IReactor reactor)
-    {
-        return 0.0F;
     }
 }

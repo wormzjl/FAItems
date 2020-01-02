@@ -1,0 +1,22 @@
+{
+    "parent": "item/generated",
+    "textures": {
+		"layer0": "faitems:items/quad_cell_0"
+	},
+    "overrides": [
+        {
+            "__comment": "cell with fuel in it",
+            "predicate": {
+              "fuel_type": 1
+            },
+            "model": "faitems:item/quad_cell_breeder"
+        },
+        {
+            "__comment": "cell depleted",
+            "predicate": {
+              "fuel_type": 2
+            },
+            "model": "faitems:item/quad_cell_depleted"
+        }
+    ]
+}

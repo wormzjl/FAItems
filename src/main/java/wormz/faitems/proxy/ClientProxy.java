@@ -1,5 +1,6 @@
 package wormz.faitems.proxy;
 
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -19,5 +20,10 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
         ModItems.initModels();
+    }
+
+    @SubscribeEvent
+    public static void registerColorHandlers(ColorHandlerEvent.Item event) {
+        ModItems.initColorHandler(event.getItemColors());
     }
 }

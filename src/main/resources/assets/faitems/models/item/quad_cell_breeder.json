@@ -1,0 +1,8 @@
+{
+  "parent": "faitems:item/quad_cell",
+  "textures": {
+    "layer0": "faitems:items/quad_cell_0",
+    "layer1": "faitems:items/quad_cell_3",
+    "layer2": "faitems:items/quad_cell_1"
+  }
+}
