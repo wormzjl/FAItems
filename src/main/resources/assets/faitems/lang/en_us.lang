@@ -1,4 +1,5 @@
 item.faitems:cell_breeder.name=Breeder fuel (%s)
+item.faitems:fuel_cell.name=fuel (%s)
 item.faitems:cell_depleted.name=Spent fuel (%s)
 item.faitems:empty_cell.name=Empty cell
 

@@ -7,6 +7,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import wormz.faitems.Fuels;
+import wormz.faitems.IFuel;
 import wormz.faitems.ModItems;
 
 @Mod.EventBusSubscriber(Side.CLIENT)
