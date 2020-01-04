@@ -10,11 +10,12 @@ import java.util.Map;
 
 public class Fuels {
     //location color
-    private static Map<String,Integer> colors = new HashMap();
+    private static Map<String, Integer> colors = new HashMap();
+
     @SideOnly(Side.CLIENT)
     public static int getFuelColor(String fuel_name, String path) {
         String location = String.format("nuclearcraft:items/%s_%s", path, fuel_name);
-        if(!colors.containsKey(location)) {
+        if (!colors.containsKey(location)) {
             TextureAtlasSprite texture = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location);
             //check if texture exist
             if (texture.getIconName() != "missingno") {
@@ -40,24 +41,27 @@ public class Fuels {
             }
             //pixel/texture not exist or invisible
             faitems.logger.warn(String.format("Failed to init %s's fuel color", fuel_name));
-            colors.put(location,-1);
+            colors.put(location, -1);
             return -1;
-        }else {
+        } else {
             return colors.get(location);
         }
     }
 
     public enum ThoriumFuelType implements IFuel {
-        TBU("tbu", 0,20000),
-        TBU_OXIDE("tbu_oxide", 1,20000);
+        TBU("tbu", 0, 20000,1,4,1),
+        TBU_OXIDE("tbu_oxide", 1, 20000,2,8,2);
         public String path = "fuel_" + this.getClass().getSimpleName().toLowerCase().replaceFirst("fueltype", "");
         private String name;
-        private int id, pulse, heatGen, durability, color;
+        private int id, pulse, heatGen, durability, color, power;
 
-        ThoriumFuelType(String name, int id, int durability) {
+        ThoriumFuelType(String name, int id, int durability,int power,int heatGen,int pulse) {
             this.name = name;
             this.id = id;
             this.durability = durability;
+            this.heatGen = heatGen;
+            this.power = power;
+            this.pulse = pulse;
         }
 
         @Override
@@ -76,6 +80,11 @@ public class Fuels {
         }
 
         @Override
+        public int getPower() {
+            return power;
+        }
+
+        @Override
         public int getHeat() {
             return heatGen;
         }
@@ -87,7 +96,7 @@ public class Fuels {
 
         @Override
         public int getColor() {
-            return getFuelColor(name,path);
+            return getFuelColor(name, path);
         }
 
         @Override
@@ -108,7 +117,7 @@ public class Fuels {
 
         String path = "fuel_" + this.getClass().getSimpleName().toLowerCase().replaceFirst("fueltype", "");
         private String name;
-        private int id, pulse, heatGen, durability, color;
+        private int id, pulse, heatGen, durability, color, power;
 
         UraniumFuelType(String name, int id) {
             this.name = name;
@@ -131,6 +140,11 @@ public class Fuels {
         }
 
         @Override
+        public int getPower() {
+            return power;
+        }
+
+        @Override
         public int getHeat() {
             return heatGen;
         }
@@ -142,7 +156,7 @@ public class Fuels {
 
         @Override
         public int getColor() {
-            return getFuelColor(name,path);
+            return getFuelColor(name, path);
         }
 
         @Override
@@ -160,7 +174,7 @@ public class Fuels {
 
         String path = "fuel_" + this.getClass().getSimpleName().toLowerCase().replaceFirst("fueltype", "");
         private String name;
-        private int id, pulse, heatGen, durability, color;
+        private int id, pulse, heatGen, durability, color, power;
 
         NeptuniumFuelType(String name, int id) {
             this.name = name;
@@ -183,6 +197,11 @@ public class Fuels {
         }
 
         @Override
+        public int getPower() {
+            return power;
+        }
+
+        @Override
         public int getHeat() {
             return heatGen;
         }
@@ -194,7 +213,7 @@ public class Fuels {
 
         @Override
         public int getColor() {
-            return getFuelColor(name,path);
+            return getFuelColor(name, path);
         }
 
         @Override
@@ -215,7 +234,7 @@ public class Fuels {
 
         String path = "fuel_" + this.getClass().getSimpleName().toLowerCase().replaceFirst("fueltype", "");
         private String name;
-        private int id, pulse, heatGen, durability, color;
+        private int id, pulse, heatGen, durability, color, power;
 
         PlutoniumFuelType(String name, int id) {
             this.name = name;
@@ -238,6 +257,11 @@ public class Fuels {
         }
 
         @Override
+        public int getPower() {
+            return power;
+        }
+
+        @Override
         public int getHeat() {
             return heatGen;
         }
@@ -249,7 +273,7 @@ public class Fuels {
 
         @Override
         public int getColor() {
-            return getFuelColor(name,path);
+            return getFuelColor(name, path);
         }
 
         @Override
@@ -264,7 +288,7 @@ public class Fuels {
 
         String path = "fuel_" + this.getClass().getSimpleName().toLowerCase().replaceFirst("fueltype", "") + "_oxide";
         private String name;
-        private int id, pulse, heatGen, durability, color;
+        private int id, pulse, heatGen, durability, color, power;
 
         MixedFuelType(String name, int id) {
             this.name = name;
@@ -287,6 +311,11 @@ public class Fuels {
         }
 
         @Override
+        public int getPower() {
+            return power;
+        }
+
+        @Override
         public int getHeat() {
             return heatGen;
         }
@@ -298,7 +327,7 @@ public class Fuels {
 
         @Override
         public int getColor() {
-            return getFuelColor(name,path);
+            return getFuelColor(name, path);
         }
 
         @Override
@@ -315,7 +344,7 @@ public class Fuels {
 
         String path = "fuel_" + this.getClass().getSimpleName().toLowerCase().replaceFirst("fueltype", "");
         private String name;
-        private int id, pulse, heatGen, durability, color;
+        private int id, pulse, heatGen, durability, color, power;
 
         AmericiumFuelType(String name, int id) {
             this.name = name;
@@ -338,6 +367,11 @@ public class Fuels {
         }
 
         @Override
+        public int getPower() {
+            return power;
+        }
+
+        @Override
         public int getHeat() {
             return heatGen;
         }
@@ -349,7 +383,7 @@ public class Fuels {
 
         @Override
         public int getColor() {
-            return getFuelColor(name,path);
+            return getFuelColor(name, path);
         }
 
         @Override
@@ -374,7 +408,7 @@ public class Fuels {
 
         String path = "fuel_" + this.getClass().getSimpleName().toLowerCase().replaceFirst("fueltype", "");
         private String name;
-        private int id, pulse, heatGen, durability, color;
+        private int id, pulse, heatGen, durability, color, power;
 
         CuriumFuelType(String name, int id) {
             this.name = name;
@@ -397,6 +431,11 @@ public class Fuels {
         }
 
         @Override
+        public int getPower() {
+            return power;
+        }
+
+        @Override
         public int getHeat() {
             return heatGen;
         }
@@ -408,7 +447,7 @@ public class Fuels {
 
         @Override
         public int getColor() {
-            return getFuelColor(name,path);
+            return getFuelColor(name, path);
         }
 
         @Override
@@ -425,7 +464,7 @@ public class Fuels {
 
         String path = "fuel_" + this.getClass().getSimpleName().toLowerCase().replaceFirst("fueltype", "");
         private String name;
-        private int id, pulse, heatGen, durability, color;
+        private int id, pulse, heatGen, durability, color, power;
 
         BerkeliumFuelType(String name, int id) {
             this.name = name;
@@ -448,6 +487,11 @@ public class Fuels {
         }
 
         @Override
+        public int getPower() {
+            return power;
+        }
+
+        @Override
         public int getHeat() {
             return heatGen;
         }
@@ -459,7 +503,7 @@ public class Fuels {
 
         @Override
         public int getColor() {
-            return getFuelColor(name,path);
+            return getFuelColor(name, path);
         }
 
         @Override
@@ -480,7 +524,7 @@ public class Fuels {
 
         String path = "fuel_" + this.getClass().getSimpleName().toLowerCase().replaceFirst("fueltype", "");
         private String name;
-        private int id, pulse, heatGen, durability, color;
+        private int id, pulse, heatGen, durability, color, power;
 
         CaliforniumFuelType(String name, int id) {
             this.name = name;
@@ -503,6 +547,11 @@ public class Fuels {
         }
 
         @Override
+        public int getPower() {
+            return power;
+        }
+
+        @Override
         public int getHeat() {
             return heatGen;
         }
@@ -514,7 +563,7 @@ public class Fuels {
 
         @Override
         public int getColor() {
-            return getFuelColor(name,path);
+            return getFuelColor(name, path);
         }
 
         @Override

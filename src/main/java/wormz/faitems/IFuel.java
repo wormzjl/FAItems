@@ -18,6 +18,12 @@ public interface IFuel {
      * @return pulse value
      */
     int getPulse();
+
+    /**
+     * power in EU
+     * @return how many EU it produce every react
+     */
+    int getPower();
     /**
      *  Return the heat the fuel generate each nuclear reaction
      *  Caution: the fuel may react multiple times every tick

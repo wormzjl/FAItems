@@ -72,6 +72,10 @@ public class ItemFuelCell<T extends Enum<T> & IFuel> extends ItemCell implements
         return getFuel(stack).getPulse();
     }
 
+    public int getFuelPower(ItemStack stack) {
+        return getFuel(stack).getPower();
+    }
+
     public int getFuelColor(ItemStack stack) {
         return getFuel(stack).getColor();
     }
@@ -103,7 +107,7 @@ public class ItemFuelCell<T extends Enum<T> & IFuel> extends ItemCell implements
         return other != null && other.getItem() instanceof IReactorComponent && ((IReactorComponent) other.getItem()).acceptUraniumPulse(other, reactor, stack, x, y, mex, mey, heatrun) ? 1 : 0;
     }
 
-    private static class ItemStackCoord {
+    protected static class ItemStackCoord {
         public final ItemStack stack;
         public final int x;
         public final int y;
@@ -118,16 +122,46 @@ public class ItemFuelCell<T extends Enum<T> & IFuel> extends ItemCell implements
     //IC2 - Start - IReactorComponent
     @Override
     public void processChamber(ItemStack stack, IReactor reactor, int x, int y, boolean heatRun) {
-        if (heatRun) {
-            if (getCustomDamage(stack) < getMaxCustomDamage(stack)) {
-                applyCustomDamage(stack, 1, null);
+        if (reactor.produceEnergy()) {
+            int basePulses = 1 + Cell_Num_GETTER.apply(stack) / 2;
+            int heat = 0;
+            //handle fission react
+            for (int i = 0; i < Cell_Num_GETTER.apply(stack); i++) {
+                //handle pulse times
+                for (int k = 0; k < getFuelPulse(stack); k++) {
+                    int pulses = basePulses;
+                    if (!heatRun) {
+                        //handle EU produce
+                        for (int j = 0; j < pulses; j++) {
+                            acceptUraniumPulse(stack, reactor, stack, x, y, x, y, heatRun);
+                        }
+                        //pulse nearby
+                        checkPulseable(reactor, x - 1, y, stack, x, y, heatRun);
+                        checkPulseable(reactor, x + 1, y, stack, x, y, heatRun);
+                        checkPulseable(reactor, x, y - 1, stack, x, y, heatRun);
+                        checkPulseable(reactor, x, y + 1, stack, x, y, heatRun);
+                    } else {
+                        //handle heat produce
+                        pulses += (checkPulseable(reactor, x - 1, y, stack, x, y, heatRun) + checkPulseable(reactor, x + 1, y, stack, x, y, heatRun) + checkPulseable(reactor, x, y - 1, stack, x, y, heatRun) + checkPulseable(reactor, x, y + 1, stack, x, y, heatRun));
+                        //fission react produce heat
+                        heat += triangularNumber(pulses) * getFuelHeat(stack);
+                    }
 
-                int basePulses = 1 + Cell_Num_GETTER.apply(stack) / 2;
-                int pulses;
-                int heat;
-                pulses = basePulses + checkPulseable(reactor, x - 1, y, stack, x, y, heatRun) + checkPulseable(reactor, x + 1, y, stack, x, y, heatRun) + checkPulseable(reactor, x, y - 1, stack, x, y, heatRun) + checkPulseable(reactor, x, y + 1, stack, x, y, heatRun);
-                heat = triangularNumber(pulses) * 4;
+                }
+
+            }
+
+            if (!heatRun) {
+                if (getCustomDamage(stack) < getMaxCustomDamage(stack)) {
+                    //reduce durability
+                    applyCustomDamage(stack, 1, null);
+                } else {
+                    //todo:handle fission recipe
+                }
+            }else{
+                //what it is
                 heat = this.getFinalHeat(stack, reactor, x, y, heat);
+                //handle heat transfer
                 Queue<ItemStackCoord> heatAcceptors = new ArrayDeque();
                 this.checkHeatAcceptor(reactor, x - 1, y, heatAcceptors);
                 this.checkHeatAcceptor(reactor, x + 1, y, heatAcceptors);
@@ -146,15 +180,16 @@ public class ItemFuelCell<T extends Enum<T> & IFuel> extends ItemCell implements
                 if (heat > 0) {
                     reactor.addHeat(heat);
                 }
-            } else {
-                //todo:handle fission recipe
             }
         }
     }
 
     @Override
     public boolean acceptUraniumPulse(ItemStack stack, IReactor reactor, ItemStack pulsingStack, int youX, int youY, int pulseX, int pulseY, boolean heatrun) {
-        return false;
+        if (!heatrun) {
+            reactor.addOutput(getFuelPower(stack));
+        }
+        return true;
     }
 
     @Override
