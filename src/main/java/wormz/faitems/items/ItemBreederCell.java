@@ -65,7 +65,7 @@ public class ItemBreederCell<T extends Enum<T> & IFuel> extends ItemFuelCell {
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-        return 1 - getCustomDamage(stack) / getMaxCustomDamage(stack);
+        return (getMaxCustomDamage(stack) - getCustomDamage(stack)) / (double)getMaxCustomDamage(stack);
     }
 
     @Override
