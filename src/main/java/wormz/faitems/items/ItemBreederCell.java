@@ -4,6 +4,7 @@ import ic2.api.reactor.IReactor;
 import ic2.api.reactor.IReactorComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import wormz.faitems.FissionRecipe;
 import wormz.faitems.IFuel;
 
 import java.util.ArrayDeque;
@@ -11,6 +12,7 @@ import java.util.Queue;
 
 public class ItemBreederCell<T extends Enum<T> & IFuel> extends ItemFuelCell {
     int heat;
+
     public ItemBreederCell(Class<T> enumm, String name) {
         super(enumm, name);
         //fuel_type -> use different content texture
@@ -20,7 +22,7 @@ public class ItemBreederCell<T extends Enum<T> & IFuel> extends ItemFuelCell {
     //IC2 - Start
     @Override
     public void processChamber(ItemStack stack, IReactor reactor, int x, int y, boolean heatRun) {
-        if(heatRun && heat > 0){
+        if (heatRun && heat > 0) {
             //handle heat transfer
             Queue<ItemStackCoord> heatAcceptors = new ArrayDeque();
             this.checkHeatAcceptor(reactor, x - 1, y, heatAcceptors);
@@ -53,11 +55,11 @@ public class ItemBreederCell<T extends Enum<T> & IFuel> extends ItemFuelCell {
             applyCustomDamage(stack, damage, null);
 
             if (getCustomDamage(stack) >= getMaxCustomDamage(stack)) {
-                //todo:handle fission recipe
+                reactor.setItemAt(youX, youY, FissionRecipe.getOutput(stack));
             }
-        }else{
+        } else {
             //fission react produce heat
-            heat += getFuelHeat(stack);
+            heat += getFuelHeat(stack) * (int) Cell_Num_GETTER.apply(stack);
         }
         return true;
     }
@@ -65,7 +67,7 @@ public class ItemBreederCell<T extends Enum<T> & IFuel> extends ItemFuelCell {
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-        return (getMaxCustomDamage(stack) - getCustomDamage(stack)) / (double)getMaxCustomDamage(stack);
+        return (getMaxCustomDamage(stack) - getCustomDamage(stack)) / (double) getMaxCustomDamage(stack);
     }
 
     @Override

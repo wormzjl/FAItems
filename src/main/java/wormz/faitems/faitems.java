@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.event.*;
 import org.apache.logging.log4j.Logger;
 import wormz.faitems.proxy.CommonProxy;
 
-@Mod(modid = faitems.MODID, name = faitems.MODNAME, version = faitems.MODVERSION, dependencies = "required-after:forge@[14.23.5.2796,)", useMetadata = true)
+@Mod(modid = faitems.MODID, name = faitems.MODNAME, version = faitems.MODVERSION, dependencies = "required-after:forge@[14.23.5.2796,);required-after:ic2@[2.8.+,)", useMetadata = true)
 public class faitems {
 
     public static final String MODID = "faitems";

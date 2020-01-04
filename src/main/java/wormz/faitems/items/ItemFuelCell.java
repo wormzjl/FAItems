@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import wormz.faitems.FissionRecipe;
 import wormz.faitems.IFuel;
 
 import javax.annotation.Nullable;
@@ -156,9 +157,9 @@ public class ItemFuelCell<T extends Enum<T> & IFuel> extends ItemCell implements
                     //reduce durability
                     applyCustomDamage(stack, 1, null);
                 } else {
-                    //todo:handle fission recipe
+                    reactor.setItemAt(x, y, FissionRecipe.getOutput(stack));
                 }
-            }else{
+            } else {
                 //what it is
                 heat = this.getFinalHeat(stack, reactor, x, y, heat);
                 //handle heat transfer
@@ -277,7 +278,7 @@ public class ItemFuelCell<T extends Enum<T> & IFuel> extends ItemCell implements
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-        return getCustomDamage(stack) / getMaxCustomDamage(stack);
+        return getCustomDamage(stack) / (double) getMaxCustomDamage(stack);
     }
 
     @Override
