@@ -1,6 +1,5 @@
 package wormz.faitems.items;
 
-import com.sun.istack.internal.Nullable;
 import ic2.api.item.ICustomDamageItem;
 import ic2.api.reactor.IReactor;
 import ic2.api.reactor.IReactorComponent;

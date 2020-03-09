@@ -54,8 +54,8 @@ sourceSets {
 }
 
 dependencies {
-    deobfProvided "net.industrial-craft:industrialcraft:release:ex112"
-    //runtime "mezz.jei:jei_1.12.2:4.13.1.222"
+    deobfProvided "net.industrial-craft:industrialcraft-2:2.8.170-ex112"
+    runtime "mezz.jei:jei_1.12.2:4.13.1.222"
     compile "cofh:RedstoneFlux:1.12-2.+:deobf"
     compile "cofh:CoFHCore:1.12.2-4.+:deobf"
     deobfProvided "CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.13.508"
