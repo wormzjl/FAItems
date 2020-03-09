@@ -1,12 +1,12 @@
 package wormz.faitems.items;
 
+import com.sun.istack.internal.Nullable;
 import ic2.api.item.ICustomDamageItem;
 import ic2.api.reactor.IReactor;
 import ic2.api.reactor.IReactorComponent;
 import ic2.core.IC2Potion;
 import ic2.core.init.Localization;
 import ic2.core.item.armor.ItemArmorHazmat;
-import ic2.core.item.reactor.ItemReactorUranium;
 import ic2.core.util.StackUtil;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.color.ItemColors;
@@ -25,7 +25,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import wormz.faitems.FissionRecipe;
 import wormz.faitems.IFuel;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
