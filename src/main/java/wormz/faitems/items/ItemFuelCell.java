@@ -25,6 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import wormz.faitems.FissionRecipe;
 import wormz.faitems.IFuel;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
